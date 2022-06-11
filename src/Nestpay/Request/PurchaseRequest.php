@@ -25,12 +25,22 @@ class PurchaseRequest extends AbstractRequest
         $body->addChild('Name', $token->getUsername());
         $body->addChild('Password', $token->getPassword());
         $body->addChild('ClientId', $token->getClientId());
-        $body->addChild('IPAddress', (string) $this->getIpAddress());
-        $body->addChild('Total', (string) $model->getAmount());
-        $body->addChild('Taksit', (string) $model->getInstallment());
+        $body->addChild('IPAddress', (string)$this->getIpAddress());
+        $body->addChild('Total', (string)$model->getAmount());
+        $body->addChild('Taksit', (string)$model->getInstallment());
         $body->addChild('Number', $model->getCreditCard()->getNumber());
-        $body->addChild('Expires', $model->getCreditCard()->getExpireMonth().'/'.$model->getCreditCard()->getExpireYear());
+        $body->addChild('Expires', $model->getCreditCard()->getExpireMonth() . '/' . $model->getCreditCard()->getExpireYear());
         $body->addChild('Cvv2Val', $model->getCreditCard()->getCvv());
+
+
+        if ($model->isRepeatingPayment()){
+            $repeatingPayments = $body->addChild('PbOrder');
+            $repeatingPayments->addChild('OrderType', $model->getTotalNumberPayments()->getOrderType());
+            $repeatingPayments->addChild('TotalNumberPayments', $model->getTotalNumberPayments()->getTotalNumberPayments());
+            $repeatingPayments->addChild('OrderFrequencyCycle', $model->getTotalNumberPayments()->getOrderFrequencyCycle());
+            $repeatingPayments->addChild('OrderFrequencyInterval', $model->getTotalNumberPayments()->getOrderFrequencyInterval());
+
+        }
 
         /** @var HttpClient $httpClient */
         $httpClient = $this->getHttpClient();
@@ -38,6 +48,6 @@ class PurchaseRequest extends AbstractRequest
             'body' => $body->asXML(),
         ]);
 
-        return new PurchaseResponse($model, (array) @simplexml_load_string($response->getBody()->getContents()));
+        return new PurchaseResponse($model, (array)@simplexml_load_string($response->getBody()->getContents()));
     }
 }

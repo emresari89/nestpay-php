@@ -6,7 +6,21 @@ abstract class AbstractModel implements ModelInterface
 {
     protected $testMode = false;
 
+    protected $repeatingPayment = false;
+
     protected $baseUrl;
+
+    public function setRepeatingPayment(bool $repeatingPayment): ModelInterface
+    {
+        $this->repeatingPayment = $repeatingPayment;
+
+        return $this;
+    }
+
+    public function isRepeatingPayment(): bool
+    {
+        return $this->repeatingPayment;
+    }
 
     public function setTestMode(bool $testMode): ModelInterface
     {
