@@ -10,7 +10,7 @@ $purchase->setCreditCard($creditCard);
 $purchase->setAmount(1);
 $purchase->setInstallment(1);
 $purchase->setCurrency(\Emsa\Nestpay\Currency::TRY);
-$response = (new \Emsa\AkBank($token))->purchase($purchase);
+$response = (new \Emsa\IsBank($token))->purchase($purchase);
 print_r([
     'isSuccessful' => $response->isSuccessful(),
     'message' => $response->getResponseMessage(),
