@@ -65,7 +65,7 @@ or better yet, fork the library and submit a pull request.
 
 ## Security
 
-If you discover any security related issues, please email muratsac@mail.com instead of using the issue tracker.
+If you discover any security related issues, please email emresarioglu89@gmail.com instead of using the issue tracker.
 
 
 ## License
